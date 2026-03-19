@@ -16,6 +16,7 @@ This project implements **IDAB (Enhanced Temporal Misalignment Attention)** and 
 Pipeline: **Backbone → FrameDiff → TemporalAttn → TextureEnhance → BilinearPool → MAA → ML-FFormer**.
 
 ---
+<img width="1827" height="740" alt="image" src="https://github.com/user-attachments/assets/ef76cfa7-eedc-48ee-921b-dd985dbc1e8c" />
 
 ## Project structure
 
@@ -65,6 +66,7 @@ Edit `configs/idab.yaml` for data path, batch size, learning rate, epochs, etc.
 ---
 
 ## Dataset and data format
+<img width="1360" height="1130" alt="image" src="https://github.com/user-attachments/assets/18d2c26d-55ed-4d3c-8ed2-2d69953956bb" />
 
 - The default config uses an **FHDeepfake**-style dataset; the data root is set in `data.root` in `configs/idab.yaml`.
 - Two directory layouts are supported:
