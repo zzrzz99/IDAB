@@ -1,4 +1,5 @@
 # IDAB: A frame-level heterogeneous forgery-oriented video deepfake detection
+<img width="1285" height="888" alt="image" src="https://github.com/user-attachments/assets/1fe1204f-31ef-4543-b5b0-91233ea55a48" />
 
 A **temporal misalignment attention**-based framework for video deepfake detection and multi-label source classification, supporting video-level and frame-level prediction, multi-source forgery recognition, and inter-frame inconsistency detection.
 
