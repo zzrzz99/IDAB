@@ -1,0 +1,58 @@
+# IDAB: Inconsistency Detection with Adaptive Bifurcation
+# 模型与训练超参（复现指南）
+
+model:
+  name: idab
+  num_classes: 5
+  # Backbone
+  backbone: efficientnet-b4
+  texture_layer: 2   # L2 纹理特征 (0-indexed block)
+  global_layer: 16   # L5 全局特征
+  # GSPM (Generation State Perception Module)
+  frame_diff_channels: 160      # 与 Fg 通道一致
+  state_attn_hidden: 64
+  # GSEM (Generation State Enhancement Module)
+  texture_lambda: 0.8           # T̃ = T ⊙ (1 + λ·σ(A))，可学习或固定
+  # GSFM (Generation State Fusion Module)
+  bilinear_d: 32               # GSFM 投影维度 d，输出 Z [B,T,d*d]
+  # GSAM (Generation State Aggregation Module)
+  num_tokens: 5
+  token_dim: 512
+  # GS-Former
+  embed_size: 256
+  num_heads: 8
+  num_layers: 2
+  dropout: 0.5                  # 强正则 ≥0.5 放在 token 后
+  transformer_dropout: 0.3
+
+train:
+  epochs: 60
+  batch_size: 4
+  frames_per_video: 16
+  learning_rate: 3e-4
+  weight_decay: 5e-4
+  warmup_epochs: 3
+  scheduler: cosine
+  freeze_backbone_epochs: 5      # 冻结 backbone 前 5–10 epoch
+  early_stop_patience: 15   # 连续 15 个 epoch 无改善再早停（放宽）
+  early_stop_delta: 1e-5   # 损失改善超过 1e-5 即视为有改善
+  label_smoothing: 0.1
+  mixup_alpha: 0.2
+  cutmix_alpha: 0.0
+  save_dir: checkpoints
+  result_json: train_test_results.json
+  # 双头任务（主：帧级来源分类，辅：帧间不一致性）
+  # dual_task: true
+  # lambda_inc: 0.3
+  # stage1_epochs: 10
+
+data:
+  name: FHDeepfake
+  root: /root/autodl-tmp/datasets
+  frame_size: 256
+  num_workers: 4
+
+eval:
+  batch_size: 4
+  frames_per_video: 16
+  optimize_threshold: true
